@@ -1,7 +1,7 @@
 /*
-    Author: iTz Arshia
-    Github: https://github.com/iTzArshia/GPT-Discord-Bot
-    Current Version: 2.0.2
+    Author: Lourenço Sequeira e Rodrigo Alegre
+    Github: https://github.com/Alegree/BOT-ESSM-PROJETO
+    Current Version: 1.0.0
     DiscordJs Version: 14.8.0
     OpenAI Version: 3.2.1
 */
