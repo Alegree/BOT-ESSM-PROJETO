@@ -5,7 +5,7 @@
 
 ## <img src="https://cdn.discordapp.com/emojis/814216203466965052.png" width="25px" height="25px">》Installation Guide
 
-### After cloning Fill all requirement in `config.json` **(rename `config.json.example` to `config.json`)**, then run
+### After cloning Fill all requirement in configs foler in `config.json` **(rename `config.example.json` to `config.json`)**, then run
 
 ```bash
 npm install
