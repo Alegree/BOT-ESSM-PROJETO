@@ -1,0 +1,8 @@
+{
+    "Prefix": "Coloque o que quiser como prefixo",
+    "MainColor": "Coloque o #HexCode que quiser para a cor das incorporações",
+    "ErrorColor": "Coloque qualquer #HexCode que quiser para a cor das incorporações quando houver um erro",
+    "ClientID": "Coloque aqui o teu Bot ID/Client ID",
+    "Token": "Coloque aqui o seu Bot Token",
+    "OpenAIapiKey": "Coloque aqui a sua chave Open AI api"
+}   
