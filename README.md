@@ -20,7 +20,7 @@ node register.js
 To start your bot
 
 ```js
-node index.js ://
+node index.js
 ```
 
 [version-shield]: https://img.shields.io/badge/VERSION-V1.0.0-blue
