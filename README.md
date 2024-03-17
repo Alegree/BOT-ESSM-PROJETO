@@ -25,4 +25,4 @@ node index.js
 
 [version-shield]: https://img.shields.io/badge/VERSION-V1.0.0-blue
 [license-shield]: https://img.shields.io/badge/LICENSE-MIT-green
-[license-url]: https://github.com/Alegree/bot-2-semestre/blob/main/LICENSE.md
+[license-url]: https://github.com/Alegree/BOT-ESSM-PROJETO/blob/main/LICENSE
