@@ -11,6 +11,9 @@ const chalk = require("chalk");
 const fs = require("node:fs");
 const config = require("./configs/config.json");
 
+// Welcome command loader
+const welcome = require("./events/welcome.js");
+
 // Discord Client Constructor
 const client = new Discord.Client({
   intents: [
@@ -31,6 +34,11 @@ for (const file of events) {
   client.on(file.split(".")[0], event.bind(null, client));
   delete require.cache[require.resolve(`./events/${file}`)];
 }
+
+//Welcome client refresher
+client.on("ready", () => {
+  welcome(client);
+});
 
 // Message Command Handler
 console.log(chalk.bold.yellowBright("A carregar mensagens de comandos"));
