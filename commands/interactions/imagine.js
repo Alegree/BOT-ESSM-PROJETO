@@ -75,7 +75,7 @@ module.exports = {
         const buttons = [
           new Discord.ButtonBuilder()
             .setStyle(Discord.ButtonStyle.Link)
-            .setLabel("Image 1")
+            .setLabel("Imagem 1")
             .setURL(data[0].url),
         ];
 

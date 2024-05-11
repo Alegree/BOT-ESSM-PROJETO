@@ -232,7 +232,7 @@ module.exports = {
               })
               .setDescription(fullAnswer)
               .setFooter({
-                text: `Costs ${func.pricing(model, totalTokens)}`,
+                text: `Bot desenvolvido por Lourenço e Rodrigo`,
                 iconURL: client.user.displayAvatarURL(),
               });
 
