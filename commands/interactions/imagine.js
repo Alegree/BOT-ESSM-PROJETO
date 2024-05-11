@@ -63,11 +63,7 @@ module.exports = {
             })
             .setImage(data[0].url)
             .setFooter({
-              text: `Esta mensagem custou ${func.pricing(
-                "dall.e",
-                4,
-                "1024x1024"
-              )}`,
+              text: `Bot desenvolvido por Lourenço e Rodrigo`,
               iconURL: client.user.displayAvatarURL(),
             }),
         ];

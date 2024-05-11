@@ -91,10 +91,7 @@ module.exports = {
             })
             .setDescription(answer)
             .setFooter({
-              text: `Esta mensagem custou ${func.pricing(
-                "gpt-3.5",
-                usage.total_tokens
-              )}`,
+              text: `Bot desenvolvido por Lourenço e Rodrigo`,
               iconURL: client.user.displayAvatarURL(),
             });
 

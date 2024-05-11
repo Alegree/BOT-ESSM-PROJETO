@@ -181,10 +181,7 @@ module.exports = {
           })
           .setDescription(answer)
           .setFooter({
-            text: `Esta mensagem custou ${func.pricing(
-              model,
-              usage.total_tokens
-            )}`,
+            text: `Bot desenvolvido por Lourenço e Rodrigo`,
             iconURL: client.user.displayAvatarURL(),
           });
 
