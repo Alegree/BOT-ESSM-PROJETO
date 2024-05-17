@@ -9,7 +9,7 @@ const config = require("../../configs/config.json");
 module.exports = {
   name: "Traduzir",
   aliases: ["T"],
-  description: "Traduz os teus textos de qualquer língua para o Inglês!",
+  description: "Traduz os teus textos de qualquer língua para qualquer língua!",
 
   async execute(client, message, args, cmd) {
     await message.channel.sendTyping();

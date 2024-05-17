@@ -7,7 +7,7 @@ const config = require("../../configs/config.json");
 module.exports = {
   name: "Imaginar",
   aliases: ["I", "D", "Draw"],
-  description: "Desenhem a tua imaginação!",
+  description: "Desenha a tua imaginação!",
 
   async execute(client, message, args, cmd) {
     await message.channel.sendTyping();

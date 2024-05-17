@@ -9,8 +9,7 @@ const config = require("../../configs/config.json");
 module.exports = {
   name: "Perguntar",
   aliases: ["A", "GPT3.5", "GPT-3.5"],
-  description:
-    "Responde às tuas perguntas utilizando o modelo __GPT-3.5__! **(Mais barato)**",
+  description: "Responde às tuas perguntas utilizando o modelo __GPT-3.5__!",
 
   async execute(client, message, args, cmd) {
     await message.channel.sendTyping();
