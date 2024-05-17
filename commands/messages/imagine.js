@@ -57,7 +57,7 @@ module.exports = {
         const buttons = [
           new Discord.ButtonBuilder()
             .setStyle(Discord.ButtonStyle.Link)
-            .setLabel("Image 1")
+            .setLabel("Imagem 1")
             .setURL(data[0].url),
         ];
 
@@ -68,7 +68,7 @@ module.exports = {
 
           const button = new Discord.ButtonBuilder()
             .setStyle(Discord.ButtonStyle.Link)
-            .setLabel(`Image ${i + 2}`)
+            .setLabel(`Imagem ${i + 2}`)
             .setURL(data[i + 1].url);
 
           embeds.push(embed);
