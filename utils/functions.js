@@ -1,117 +1,118 @@
-const tiktoken = require('@dqbd/tiktoken');
-const encoder = tiktoken.get_encoding('cl100k_base');
+const tiktoken = require("@dqbd/tiktoken");
+const encoder = tiktoken.get_encoding("cl100k_base");
 
 module.exports = {
+  numberWithCommas: function (number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  },
 
-    numberWithCommas: function (number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
+  userInfo: function (user) {
+    return `${user} | ${user.tag} | ${user.id}`;
+  },
 
-    userInfo: function (user) {
-        return `${user} | ${user.tag} | ${user.id}`;
-    },
+  channelInfo: function (channelRoleEmoji) {
+    return `${channelRoleEmoji} | ${channelRoleEmoji.name} | ${channelRoleEmoji.id}`;
+  },
 
-    channelInfo: function (channelRoleEmoji) {
-        return `${channelRoleEmoji} | ${channelRoleEmoji.name} | ${channelRoleEmoji.id}`;
-    },
+  timestamp: function (ms) {
+    return `<t:${Math.trunc(ms / 1000)}:D> | <t:${Math.trunc(ms / 1000)}:R>`;
+  },
 
-    timestamp: function (ms) {
-        return `<t:${Math.trunc(ms / 1000)}:D> | <t:${Math.trunc(ms / 1000)}:R>`;
-    },
+  delay: function (ms) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(), ms);
+    });
+  },
 
-    delay: function (ms) {
-        return new Promise(resolve => {
-            setTimeout(() => resolve(), ms);
-        });
-    },
+  flagCheck: function (object) {
+    let Sexual = false;
+    let Hate = false;
+    let Harassment = false;
+    let SelfHarm = false;
+    let Violence = false;
 
-    flagCheck: function (object) {
+    if (object["sexual"] || object["sexual/minors"]) Sexual = true;
+    if (object["hate"] || object["hate/threatening"]) Hate = true;
+    if (object["harassment"] || object["harassment/threatening"])
+      Harassment = true;
+    if (
+      object["self-harm"] ||
+      object["self-harm/intent"] ||
+      object["self-harm/instructions"]
+    )
+      SelfHarm = true;
+    if (object["violence"] || object["violence/graphic"]) Violence = true;
 
-        let Sexual = false;
-        let Hate = false;
-        let Harassment = false;
-        let SelfHarm = false;
-        let Violence = false;
+    const flags = {
+      Sexual: Sexual,
+      Hate: Hate,
+      Harassment: Harassment,
+      "Self-Harm": SelfHarm,
+      Violence: Violence,
+    };
 
-        if (object['sexual'] || object['sexual/minors']) Sexual = true;
-        if (object['hate'] || object['hate/threatening']) Hate = true;
-        if (object['harassment'] || object['harassment/threatening']) Harassment = true;
-        if (object['self-harm'] || object['self-harm/intent'] || object['self-harm/instructions']) SelfHarm = true;
-        if (object['violence'] || object['violence/graphic']) Violence = true;
+    const allFlags = Object.keys(flags)
+      .map((key) => (flags[key] ? `${key}: ✅` : `${key}: ❌`))
+      .join("\n");
+    const trueFlags = Object.keys(flags)
+      .filter((key) => flags[key])
+      .join(", ");
 
-        const flags = {
-            "Sexual": Sexual,
-            "Hate": Hate,
-            "Harassment": Harassment,
-            "Self-Harm": SelfHarm,
-            "Violence": Violence
-        };
+    return {
+      flags: flags,
+      allFlags: allFlags,
+      trueFlags: trueFlags,
+    };
+  },
 
-        const allFlags = Object.keys(flags).map(key => flags[key] ? `${key}: ✅` : `${key}: ❌`).join("\n");
-        const trueFlags = Object.keys(flags).filter(key => flags[key]).join(", ");
+  tokenizer: function (model, prompt) {
+    let tokensPerMessage;
+    let nameAdjustment;
 
-        return {
-            flags: flags,
-            allFlags: allFlags,
-            trueFlags: trueFlags
-        };
+    if (model === "gpt-4") {
+      tokensPerMessage = 3;
+      nameAdjustment = 1;
+    } else {
+      tokensPerMessage = 4;
+      nameAdjustment = -1;
+    }
 
-    },
-
-    tokenizer: function (model, prompt) {
-
-        let tokensPerMessage;
-        let nameAdjustment;
-
-        if (model === 'gpt-4') {
-            tokensPerMessage = 3;
-            nameAdjustment = 1;
-        } else {
-            tokensPerMessage = 4;
-            nameAdjustment = -1;
+    const messagesTokenCounts = prompt.map((messages) => {
+      const propertyTokenCounts = Object.entries(messages).map(
+        ([key, value]) => {
+          const numTokens = encoder.encode(value).length;
+          const adjustment = key === "name" ? nameAdjustment : 0;
+          return numTokens + adjustment;
         }
+      );
 
-        const messagesTokenCounts = prompt.map((messages) => {
+      return propertyTokenCounts.reduce((a, b) => a + b, tokensPerMessage);
+    });
 
-            const propertyTokenCounts = Object.entries(messages).map(([key, value]) => {
-                const numTokens = encoder.encode(value).length;
-                const adjustment = (key === 'name') ? nameAdjustment : 0;
-                return numTokens + adjustment;
-            });
+    const messagesTokens = messagesTokenCounts.reduce((a, b) => a + b, 0) + 2;
 
-            return propertyTokenCounts.reduce((a, b) => a + b, tokensPerMessage);
+    let maxTokens;
+    if (model === "gpt-3.5") maxTokens = 4097;
+    else if (model === "gpt-4") maxTokens = 8192;
 
-        });
+    return {
+      tokens: messagesTokens,
+      maxTokens: maxTokens - messagesTokens,
+    };
+  },
 
-        const messagesTokens = messagesTokenCounts.reduce((a, b) => a + b, 0) + 2;
+  pricing: function (model, number, resolution) {
+    let cost = 0.0;
+    if (model === "dall.e") {
+      let pricing = {
+        "1024x1024": 0.02,
+        "512x512": 0.018,
+        "256x256": 0.016,
+      };
+      cost = number * pricing[resolution];
+    } else if (model === "gpt-3.5") cost = number * (0.002 / 1000);
+    else if (model === "gpt-4") cost = number * (0.06 / 1000);
 
-        let maxTokens;
-        if (model === 'gpt-3.5') maxTokens = 4097
-        else if (model === 'gpt-4') maxTokens = 8192
-
-        return {
-            tokens: messagesTokens,
-            maxTokens: maxTokens - messagesTokens
-        };
-
-    },
-
-    pricing: function (model, number, resolution) {
-
-        let cost = 0.0;
-        if (model === 'dall.e') {
-            let pricing = {
-                '1024x1024': 0.020,
-                '512x512': 0.018,
-                '256x256': 0.016
-            };
-            cost = number * pricing[resolution];
-        }
-        else if (model === 'gpt-3.5') cost = number * (0.002 / 1000);
-        else if (model === 'gpt-4') cost = number * (0.060 / 1000);
-
-        return `$${Number(cost.toFixed(4))}`;
-
-    },
-
+    return `$${Number(cost.toFixed(4))}`;
+  },
 };

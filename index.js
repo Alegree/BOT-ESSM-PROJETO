@@ -1,9 +1,8 @@
 /*
     Author: Lourenço Sequeira e Rodrigo Alegre
     Github: https://github.com/Alegree/BOT-ESSM-PROJETO
-    Current Version: 1.0.0
+    Current Version: 1.2.3
     DiscordJs Version: 14.8.0
-    OpenAI Version: 3.2.1
 */
 
 const Discord = require("discord.js");
@@ -11,10 +10,8 @@ const chalk = require("chalk");
 const fs = require("node:fs");
 const config = require("./configs/config.json");
 
-// Welcome command loader
 const welcome = require("./events/welcome.js");
 
-// Discord Client Constructor
 const client = new Discord.Client({
   intents: [
     Discord.GatewayIntentBits.Guilds,
@@ -24,7 +21,6 @@ const client = new Discord.Client({
   ],
 });
 
-// Event Handler
 console.log(chalk.bold.yellowBright("A carregar eventos"));
 const events = fs
   .readdirSync(`./events/`)
@@ -35,12 +31,10 @@ for (const file of events) {
   delete require.cache[require.resolve(`./events/${file}`)];
 }
 
-//Welcome client refresher
 client.on("ready", () => {
   welcome(client);
 });
 
-// Message Command Handler
 console.log(chalk.bold.yellowBright("A carregar mensagens de comandos"));
 client.MessageCommands = new Discord.Collection();
 const messageCommands = fs
@@ -52,7 +46,6 @@ for (const file of messageCommands) {
   delete require.cache[require.resolve(`./commands/messages/${file}`)];
 }
 
-// Slash Command Handler
 console.log(chalk.bold.yellowBright("A carregar mensagens (/)"));
 client.SlashCommands = new Discord.Collection();
 const slashCommands = fs
@@ -64,7 +57,6 @@ for (const file of slashCommands) {
   delete require.cache[require.resolve(`./commands/interactions/${file}`)];
 }
 
-// Anti Crash
 process.on("unhandledRejection", (reason, p) => {
   console.log(chalk.bold.redBright("[antiCrash] :: Unhandled Rejection/Catch"));
   console.log(reason?.stack, p);
@@ -82,5 +74,4 @@ process.on("uncaughtExceptionMonitor", (err, origin) => {
   console.log(err?.stack, origin);
 });
 
-// Discord Client login
 client.login(config.Token);
