@@ -10,8 +10,8 @@
   "scripts": {
     "start": "node index.js"
   },
-  "name": "gpt-discord-bot",
-  "description": "GPT Discord Bot",
+  "name": "essm-discord-bot",
+  "description": "ESSM Discord BOT",
   "version": "3.0.0",
   "main": "index.js",
   "repository": "https://github.com/Alegree/BOT-ESSM-PROJETO",
