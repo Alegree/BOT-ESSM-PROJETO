@@ -261,7 +261,7 @@ module.exports = {
               })
               .setDescription(fullAnswer)
               .setFooter({
-                text: `Writing...`,
+                text: `A escrever...`,
                 iconURL: client.user.displayAvatarURL(),
               });
 
